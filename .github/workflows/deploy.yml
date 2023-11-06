@@ -38,5 +38,6 @@ jobs:
           ssh -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_IP_ADDRESS "
             sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD &&
             sudo docker pull $DOCKER_USERNAME/$REPO_NAME:latest &&
-            sudo docker-compose -p $REPO_NAME -e "$ENV_FILE" -f ~/$REPO_NAME-compose up -d
+            sudo echo "$ENV_FILE" > ~/$REPO_NAME-env &&
+            sudo docker-compose -p $REPO_NAME --env-file ~/$REPO_NAME-env -f ~/$REPO_NAME-compose up -d
           "
