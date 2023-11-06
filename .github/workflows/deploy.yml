@@ -33,13 +33,10 @@ jobs:
         run: |
           scp -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no -r server/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:~/$REPO_NAME-compose
 
-      - name: Set ENV
-        run: |
-          ssh -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_IP_ADDRESS 'sudo echo "$ENV_FILE" > ~/$REPO_NAME-env'
-
       - name: Docker pull -> up 🐳
         run: |
           ssh -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_IP_ADDRESS "
+            sudo echo '$ENV_FILE' > ~/$REPO_NAME-env &&
             sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD &&
             sudo docker pull $DOCKER_USERNAME/$REPO_NAME:latest &&
             sudo docker-compose -p $REPO_NAME --env-file ~/$REPO_NAME-env -f ~/$REPO_NAME-compose up -d
