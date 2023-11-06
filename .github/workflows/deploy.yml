@@ -35,7 +35,7 @@ jobs:
 
       - name: Set ENV
         run: |
-          ssh -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_IP_ADDRESS "sudo echo "$ENV_FILE" > ~/$REPO_NAME-env"
+          ssh -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_IP_ADDRESS 'sudo echo "$ENV_FILE" > ~/$REPO_NAME-env'
 
       - name: Docker pull -> up 🐳
         run: |
